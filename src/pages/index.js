@@ -1,7 +1,20 @@
+import {
+  AddTask,
+  Button,
+  CurrentTask,
+  Footer,
+  Header,
+  Info,
+  Records,
+} from "@/components";
+
 export default function Home() {
   return (
-    <div className="max-w-7xl mx-auto h-screen">
-      <h1>Welcome to focus mode.</h1>
+    <div>
+      <Info />
+      <CurrentTask />
+      <AddTask />
+      <Records />
     </div>
   );
 }
