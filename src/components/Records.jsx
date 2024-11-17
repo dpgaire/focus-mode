@@ -6,7 +6,7 @@ const Records = ({ tasks, currentTask }) => {
   const filteredTask = tasks.filter((item) => item.taskName !== currentTask);
 
   return (
-    <div className="my-2 flex flex-col gap-4 border rounded-lg shadow-lg p-2">
+    <div className="my-2 flex flex-col gap-4 border rounded-lg shadow-lg p-2 max-h-96 overflow-auto">
       <span className="text-2xl font-bold">Records</span>
       {filteredTask?.length === 0 ? (
         <div>No completed tasks available.</div>

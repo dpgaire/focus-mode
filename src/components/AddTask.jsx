@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from ".";
 import { useEffect } from "react";
 
-const AddTask = ({ tasks, setTasks }) => {
+const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
   const [openForm, setOpenForm] = useState(false);
   const [task, setTask] = useState("");
 
@@ -21,6 +21,7 @@ const AddTask = ({ tasks, setTasks }) => {
 
       // Store the updated tasks array in localStorage
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      setUpdateTask(true);
       alert(`Task is added: ${task}`);
       setTask(""); // Clear the task input
     }
