@@ -3,10 +3,10 @@ import { Button } from ".";
 
 const CurrentTask = ({ currentTask }) => {
   // State to track the time, starting at 25 minutes (25 * 60 = 1500 seconds)
-  // const [time, setTime] = useState(25 * 60);
-  const [time, setTime] = useState(1 * 20);
+  const [time, setTime] = useState(25 * 60);
+  // const [time, setTime] = useState(1 * 20);
 
-  const [alarm, setAlarm] = useState(new Audio("/audio/triumph-jingle.mp3"));
+  const [alarm, setAlarm] = useState(null);
 
   const [isRunning, setIsRunning] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
@@ -21,9 +21,20 @@ const CurrentTask = ({ currentTask }) => {
     )}`;
   };
 
+  // Function to play the alarm sound
   const playAlarm = () => {
-    alarm.play();
+    if (alarm) {
+      alarm.play().catch((e) => {
+        console.error("Audio play failed:", e);
+      });
+    }
   };
+
+  useEffect(() => {
+    const audio = new Audio("/audio/triumph-jingle.mp3");
+    audio.load(); // Explicitly load the audio file
+    setAlarm(audio);
+  }, []);
 
   // Start/Stop timer logic
   const toggleTimer = () => {
