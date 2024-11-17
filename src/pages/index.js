@@ -10,7 +10,6 @@ export default function Home() {
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     setTasks(storedTasks);
     if (storedTasks.length > 0) {
-      // Set the most recently added task as the current task
       setCurrentTask(storedTasks[storedTasks.length - 1].taskName);
     }
   }, [updateTask]);

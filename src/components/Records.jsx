@@ -2,34 +2,46 @@ import React from "react";
 
 const Records = ({ tasks, currentTask }) => {
   // Filter out the current task from the task list
-
   const filteredTask = tasks.filter((item) => item.taskName !== currentTask);
 
   return (
-    <div className="my-2 flex flex-col gap-4 border rounded-lg shadow-lg p-2 max-h-96 overflow-auto">
+    <div className="my-2 p-2 ">
       <span className="text-2xl font-bold">Records</span>
-      {filteredTask?.length === 0 ? (
-        <div>No completed tasks available.</div>
-      ) : (
-        filteredTask?.map((task, index) => (
-          <RecordList key={index} task={task} />
-        ))
-      )}
+      <div className="max-h-96 overflow-auto">
+        {filteredTask?.length === 0 ? (
+          <div>No completed tasks available.</div>
+        ) : (
+          <table className="min-w-full table-auto border-collapse mt-4">
+            <thead>
+              <tr className="bg-gray-200 text-left">
+                <th className="px-4 py-2 border-b">Task Name</th>
+                <th className="px-4 py-2 border-b">Completion Date</th>
+                <th className="px-4 py-2 border-b">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTask?.map((task, index) => (
+                <RecordRow key={index} task={task} />
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 };
 
-export default Records;
-
-const RecordList = ({ task }) => {
+const RecordRow = ({ task }) => {
   const { taskName, timestamp } = task;
   const completionDate = new Date(timestamp).toLocaleDateString(); // Format the timestamp
 
   return (
-    <div className="w-full flex justify-between items-center p-4 border rounded-lg shadow-lg">
-      <span className="text-lg">{taskName}</span>
-      <span className="text-lg">{completionDate}</span>
-      <span className="text-green-500">Completed</span>
-    </div>
+    <tr className="border-b hover:bg-gray-100">
+      <td className="px-4 py-2">{taskName}</td>
+      <td className="px-4 py-2">{completionDate}</td>
+      <td className="px-4 py-2 text-green-500">Completed</td>
+    </tr>
   );
 };
+
+export default Records;

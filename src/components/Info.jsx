@@ -1,11 +1,11 @@
 import React from "react";
 
 const info = [
-  "Turn off your phone notification.",
+  "Turn off your phone's notification.",
   "Place a glass of water.",
-  "Charge your labtop.",
+  "Charge your laptop.",
   "Wear a headphone.",
-  "Play the focus music",
+  "Play the focus music.",
 ];
 
 const Info = () => {

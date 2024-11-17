@@ -3,9 +3,9 @@ import React from "react";
 
 const Layout = ({ children }) => {
   return (
-    <div className="max-w-7xl mx-auto h-screen">
+    <div className="max-w-7xl mx-auto border">
       <Header />
-      <div className="p-4 my-2 h-auto">{children}</div>
+      <div className="p-4 my-2 h-auto ">{children}</div>
       <Footer />
     </div>
   );

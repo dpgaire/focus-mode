@@ -75,7 +75,7 @@ const CurrentTask = ({ currentTask }) => {
       <span className="text-2xl font-bold">Current Task</span>
       <div className="p-4 my-2 flex justify-between items-center border rounded-lg shadow-lg">
         <span className="text-xl">{currentTask}</span>
-        <span className="text-6xl ">{formatTime(time)}</span>
+        <span className="md:text-6xl">{formatTime(time)}</span>
         <Button
           variant={isRunning ? "danger" : "primary"}
           innerText={isRunning ? "Stop" : "Start"}
