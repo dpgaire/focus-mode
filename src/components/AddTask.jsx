@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from ".";
-import { useState } from "react";
+import { useEffect } from "react";
 
-const AddTask = () => {
+const AddTask = ({ tasks, setTasks }) => {
   const [openForm, setOpenForm] = useState(false);
   const [task, setTask] = useState("");
+
+  // Handle task submission
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    alert(`Task is added: ${task}`);
-    setTask("");
+
+    if (task.trim()) {
+      const newTask = {
+        taskName: task,
+        timestamp: new Date().toLocaleString(), // Capture the timestamp
+      };
+
+      const updatedTasks = [...tasks, newTask];
+      setTasks(updatedTasks);
+
+      // Store the updated tasks array in localStorage
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      alert(`Task is added: ${task}`);
+      setTask(""); // Clear the task input
+    }
   };
+
   return (
-    <div className="my-2">
+    <div className="my-2 border rounded-lg shadow-lg p-2">
       <span className="text-2xl font-bold block mb-2">Add New Task</span>
       <Button
-        type="submit"
         variant="primary"
         innerText="Add Task"
         onClick={() => setOpenForm((prevState) => !prevState)}
