@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from ".";
 
 const CurrentTask = ({ currentTask }) => {
-  // State to track the time, starting at 25 minutes (25 * 60 = 1500 seconds)
+  // State to track the remaining time, starting at 25 minutes (25 * 60 = 1500 seconds)
   const [time, setTime] = useState(25 * 60);
-  // const [time, setTime] = useState(1 * 20);
+  // const [time, setTime] = useState(20); // For testing with 20 seconds
 
   const [alarm, setAlarm] = useState(null);
-
   const [isRunning, setIsRunning] = useState(false);
-  const [intervalId, setIntervalId] = useState(null);
+  const startTimeRef = useRef(null);
+  const intervalIdRef = useRef(null);
+  const pausedTimeRef = useRef(time);
 
-  // Function to format the time in MM:SS
+  // Function to format the time in HH:MM:SS
   const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60);
+    const hours = Math.floor(timeInSeconds / 3600);
+    const minutes = Math.floor((timeInSeconds % 3600) / 60);
     const seconds = timeInSeconds % 60;
-    return `00:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
       2,
       "0"
-    )}`;
+    )}:${String(seconds).padStart(2, "0")}`;
   };
 
   // Function to play the alarm sound
@@ -30,45 +32,51 @@ const CurrentTask = ({ currentTask }) => {
     }
   };
 
+  // Load the alarm audio on component mount
   useEffect(() => {
     const audio = new Audio("/audio/triumph-jingle.mp3");
     audio.load(); // Explicitly load the audio file
     setAlarm(audio);
   }, []);
 
+  // Update the timer using the actual elapsed time
+  const updateTime = () => {
+    const now = Date.now();
+    const elapsedTime = Math.floor((now - startTimeRef.current) / 1000);
+    const newTime = Math.max(0, pausedTimeRef.current - elapsedTime);
+
+    if (newTime <= 0) {
+      clearInterval(intervalIdRef.current);
+      setIsRunning(false);
+      playAlarm();
+    }
+
+    setTime(newTime);
+  };
+
   // Start/Stop timer logic
   const toggleTimer = () => {
     if (isRunning) {
-      // If timer is running, stop it
-      clearInterval(intervalId);
+      // Stop the timer
+      clearInterval(intervalIdRef.current);
+      pausedTimeRef.current = time; // Save the paused time
       setIsRunning(false);
     } else {
-      // If timer is not running, start it
-      const id = setInterval(() => {
-        setTime((prevTime) => {
-          if (prevTime <= 1) {
-            // Stop the timer when it reaches 0
-            clearInterval(id);
-            setIsRunning(false);
-            playAlarm();
-            return 0; // Ensure it doesn't go below zero
-          }
-          return prevTime - 1; // Decrement the time every second
-        });
-      }, 1000);
-      setIntervalId(id);
+      // Start the timer
+      startTimeRef.current = Date.now();
+      intervalIdRef.current = setInterval(updateTime, 1000);
       setIsRunning(true);
     }
   };
 
-  // Cleanup on component unmount (if the timer is running)
+  // Cleanup on component unmount
   useEffect(() => {
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
+      if (intervalIdRef.current) {
+        clearInterval(intervalIdRef.current);
       }
     };
-  }, [intervalId]);
+  }, []);
 
   return (
     <div className="my-2 border rounded-lg shadow-lg p-2">
