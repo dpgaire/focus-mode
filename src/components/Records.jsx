@@ -2,14 +2,16 @@ import React from "react";
 
 const Records = ({ tasks, currentTask }) => {
   // Filter out the current task from the task list
-  const filteredTask = tasks.filter((item) => item.taskName !== currentTask);
+  const filteredTasks = tasks.filter((task) => task.taskName !== currentTask);
 
   return (
-    <div className="my-2 p-2 ">
+    <div className="my-2 p-2">
       <span className="text-2xl font-bold">Records</span>
       <div className="max-h-96 overflow-auto">
-        {filteredTask?.length === 0 ? (
-          <div>No completed tasks available.</div>
+        {filteredTasks.length === 0 ? (
+          <div className="text-gray-500 mt-4">
+            No completed tasks available.
+          </div>
         ) : (
           <table className="min-w-full table-auto border mt-4">
             <thead>
@@ -20,7 +22,7 @@ const Records = ({ tasks, currentTask }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredTask?.map((task, index) => (
+              {filteredTasks.map((task, index) => (
                 <RecordRow key={index} task={task} />
               ))}
             </tbody>
@@ -32,14 +34,24 @@ const Records = ({ tasks, currentTask }) => {
 };
 
 const RecordRow = ({ task }) => {
-  const { taskName, timestamp } = task;
-  const completionDate = new Date(timestamp).toLocaleDateString(); // Format the timestamp
+  const { taskName, completedAt } = task;
+  const completionDate = completedAt
+    ? new Date(completedAt).toLocaleString()
+    : new Date().toLocaleString();
 
   return (
     <tr className="border-b hover:bg-gray-100">
       <td className="px-4 py-2">{taskName}</td>
       <td className="px-4 py-2">{completionDate}</td>
-      <td className="px-4 py-2 text-green-500">Completed</td>
+      <td
+        className={`px-4 py-2 ${
+          task?.status === "completed" ? "text-green-500" : "text-yellow-500"
+        }`}
+      >
+        {!task?.status
+          ? "Pending"
+          : task?.status?.charAt(0).toUpperCase() + task?.status?.slice(1)}
+      </td>
     </tr>
   );
 };

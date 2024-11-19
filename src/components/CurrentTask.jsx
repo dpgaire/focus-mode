@@ -1,29 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Button } from ".";
 
-const CurrentTask = ({ currentTask }) => {
-  // State to track the remaining time, starting at 25 minutes (25 * 60 = 1500 seconds)
-  const [time, setTime] = useState(25 * 60);
-  // const [time, setTime] = useState(20); // For testing with 20 seconds
-
+const CurrentTask = ({ currentTask, setUpdateTask }) => {
+  const [time, setTime] = useState(60 * 25); // For testing with 10 seconds
   const [alarm, setAlarm] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const startTimeRef = useRef(null);
   const intervalIdRef = useRef(null);
   const pausedTimeRef = useRef(time);
 
-  // Function to format the time in HH:MM:SS
   const formatTime = (timeInSeconds) => {
-    const hours = Math.floor(timeInSeconds / 3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
+    const minutes = Math.floor(timeInSeconds / 60);
     const seconds = timeInSeconds % 60;
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
       2,
       "0"
-    )}:${String(seconds).padStart(2, "0")}`;
+    )}`;
   };
 
-  // Function to play the alarm sound
   const playAlarm = () => {
     if (alarm) {
       alarm.play().catch((e) => {
@@ -32,14 +26,12 @@ const CurrentTask = ({ currentTask }) => {
     }
   };
 
-  // Load the alarm audio on component mount
   useEffect(() => {
     const audio = new Audio("/audio/triumph-jingle.mp3");
-    audio.load(); // Explicitly load the audio file
+    audio.load();
     setAlarm(audio);
   }, []);
 
-  // Update the timer using the actual elapsed time
   const updateTime = () => {
     const now = Date.now();
     const elapsedTime = Math.floor((now - startTimeRef.current) / 1000);
@@ -49,27 +41,39 @@ const CurrentTask = ({ currentTask }) => {
       clearInterval(intervalIdRef.current);
       setIsRunning(false);
       playAlarm();
+
+      // Update tasks when time reaches 0
+      setTimeout(() => {
+        const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+        const updatedTasks = storedTasks.map((task) =>
+          task.taskName === currentTask
+            ? {
+                ...task,
+                status: "completed",
+                completedAt: new Date().toISOString(),
+              }
+            : task
+        );
+        localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+        setUpdateTask((prev) => !prev); // Trigger parent update
+      }, 3000); // Wait for audio to play before updating
     }
 
     setTime(newTime);
   };
 
-  // Start/Stop timer logic
   const toggleTimer = () => {
     if (isRunning) {
-      // Stop the timer
       clearInterval(intervalIdRef.current);
-      pausedTimeRef.current = time; // Save the paused time
+      pausedTimeRef.current = time;
       setIsRunning(false);
     } else {
-      // Start the timer
       startTimeRef.current = Date.now();
       intervalIdRef.current = setInterval(updateTime, 1000);
       setIsRunning(true);
     }
   };
 
-  // Cleanup on component unmount
   useEffect(() => {
     return () => {
       if (intervalIdRef.current) {

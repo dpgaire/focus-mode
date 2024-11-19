@@ -9,21 +9,23 @@ export default function Home() {
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
     setTasks(storedTasks);
-    if (storedTasks.length > 0) {
-      setCurrentTask(storedTasks[storedTasks.length - 1].taskName);
-    }
+
+    const ongoingTask = storedTasks.find((task) => task.status !== "completed");
+    setCurrentTask(ongoingTask ? ongoingTask.taskName : null);
   }, [updateTask]);
 
   return (
     <>
       <Info />
-      <CurrentTask currentTask={currentTask} />
+      {currentTask && (
+        <CurrentTask currentTask={currentTask} setUpdateTask={setUpdateTask} />
+      )}
       <AddTask
         tasks={tasks}
         setTasks={setTasks}
         setUpdateTask={setUpdateTask}
       />
-      <Records tasks={tasks} currentTask={currentTask} />
+      <Records tasks={tasks} />
     </>
   );
 }
