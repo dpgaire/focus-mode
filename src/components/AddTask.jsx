@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from ".";
-import { useEffect } from "react";
 
 const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
   const [openForm, setOpenForm] = useState(false);
   const [task, setTask] = useState("");
+  const [error, setError] = useState(""); // New state for error message
 
   // Handle task submission
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (task.trim()) {
+    if (!task.trim()) {
+      setError("Task name cannot be empty"); // Show error if task is empty
+    } else {
       const newTask = {
         taskName: task,
         timestamp: new Date().toLocaleString(), // Capture the timestamp
@@ -22,8 +24,18 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
       // Store the updated tasks array in localStorage
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));
       setUpdateTask(true);
-      alert(`Task is added: ${task}`);
       setTask(""); // Clear the task input
+      setError(""); // Clear any error after successful submission
+    }
+  };
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    setTask(e.target.value);
+
+    // Clear the error message when user starts typing
+    if (e.target.value.trim()) {
+      setError("");
     }
   };
 
@@ -41,13 +53,20 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
           className="mt-2 flex flex-col gap-2 p-2 border rounded-lg shadow-lg"
         >
           <input
-            className="py-2 px-4 w-full border rounded-lg"
+            className={`py-2 px-4 w-full border rounded-lg ${
+              error ? "border-red-500" : ""
+            }`}
             placeholder="Task name"
             name="task"
             value={task}
-            onChange={(e) => setTask(e.target.value)}
+            onChange={handleInputChange}
           />
-          <Button type="submit" variant="primary" innerText="Add" />
+          {error && (
+            <div className="text-red-500 text-sm mt-1">
+              {error} {/* Display error message */}
+            </div>
+          )}
+          <Button type="submit" variant="primary" innerText="Submit" />
         </form>
       )}
     </div>
