@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from ".";
 
-const Records = ({ tasks, currentTask }) => {
+const Records = ({ tasks, currentTask, updateTask }) => {
+  // State to track the task being edited
+  const [selectedTask, setSelectedTask] = useState(null);
+
   // Filter out the current task from the task list
   const filteredTasks = tasks.filter((task) => task.taskName !== currentTask);
 
@@ -12,34 +15,34 @@ const Records = ({ tasks, currentTask }) => {
   });
 
   const handleDownload = () => {
-    // Convert the task data to a JSON string
     const data = JSON.stringify(sortedTasks, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
-
-    // Get current date in 'YYYY-MM-DD' format
     const currentDate = new Date().toISOString().split("T")[0];
-
-    // Create a temporary anchor element for downloading the file
     const link = document.createElement("a");
     link.href = url;
-    link.download = `task_logs_${currentDate}.json`; // Filename with current date
+    link.download = `task_logs_${currentDate}.json`;
     link.click();
-
-    // Clean up the temporary URL
     URL.revokeObjectURL(url);
   };
 
   const formatCompletionDate = (timestamp) => {
     const date = new Date(timestamp);
-
-    // Check if the date is invalid (i.e., not a valid date)
     if (isNaN(date.getTime())) {
-      return "Invalid Date"; // Fallback message
+      return "Invalid Date";
     }
+    return date.toLocaleString();
+  };
 
-    // If the date is valid, format it into a readable string
-    return date.toLocaleString(); // Default locale date format
+  // Handle row click (set selected task for editing)
+  const handleRowClick = (task) => {
+    setSelectedTask(task);
+  };
+
+  // Handle updating the task
+  const handleUpdateTask = (updatedTask) => {
+    updateTask(updatedTask); // This will be passed as a prop to update the tasks in the parent component
+    setSelectedTask(null); // Close the modal
   };
 
   return (
@@ -61,6 +64,7 @@ const Records = ({ tasks, currentTask }) => {
           <table className="min-w-full table-auto border mt-4">
             <thead>
               <tr className="bg-blue-500 text-left text-white">
+                <th className="px-4 py-2 border-b">S/N</th>
                 <th className="px-4 py-2 border-b">Task Name</th>
                 <th className="px-4 py-2 border-b">Completion Date</th>
                 <th className="px-4 py-2 border-b">Status</th>
@@ -71,24 +75,35 @@ const Records = ({ tasks, currentTask }) => {
                 <RecordRow
                   key={index}
                   task={task}
+                  sn={index + 1}
                   formatCompletionDate={formatCompletionDate}
+                  onClick={() => handleRowClick(task)} // Set the selected task on click
                 />
               ))}
             </tbody>
           </table>
         )}
       </div>
+
+      {/* Modal to edit task */}
+      {selectedTask && (
+        <TaskEditModal
+          task={selectedTask}
+          onClose={() => setSelectedTask(null)}
+          onUpdate={handleUpdateTask}
+        />
+      )}
     </div>
   );
 };
 
-const RecordRow = ({ task, formatCompletionDate }) => {
+const RecordRow = ({ task, sn, formatCompletionDate, onClick }) => {
   const { taskName, timestamp } = task;
-
   const completionDate = formatCompletionDate(timestamp);
 
   return (
-    <tr className="border-b hover:bg-gray-100">
+    <tr className="border-b hover:bg-gray-100" onClick={onClick}>
+      <td className="px-4 py-2">{sn}</td>
       <td className="px-4 py-2">{taskName}</td>
       <td className="px-4 py-2">{completionDate}</td>
       <td
@@ -101,6 +116,72 @@ const RecordRow = ({ task, formatCompletionDate }) => {
           : task?.status?.charAt(0).toUpperCase() + task?.status?.slice(1)}
       </td>
     </tr>
+  );
+};
+
+const TaskEditModal = ({ task, onClose, onUpdate }) => {
+  const [editedTask, setEditedTask] = useState({
+    ...task, // Copy existing task data
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedTask((prevTask) => ({
+      ...prevTask,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onUpdate(editedTask); // Update the task with the edited data
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+      <div className="bg-white p-6 rounded-lg w-96">
+        <h2 className="text-xl font-bold mb-4">Edit Task</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Task Name</label>
+            <input
+              type="text"
+              name="taskName"
+              value={editedTask.taskName}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Completion Date</label>
+            <input
+              type="datetime-local"
+              name="timestamp"
+              value={new Date(editedTask.timestamp).toISOString().slice(0, 16)}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Status</label>
+            <select
+              name="status"
+              value={editedTask.status || ""}
+              onChange={handleInputChange}
+              className="w-full p-2 border rounded"
+            >
+              <option value="">Select Status</option>
+              <option value="completed">Completed</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+          <div className="flex justify-end space-x-4">
+            <Button variant="secondary" innerText="Cancel" onClick={onClose} />
+            <Button variant="primary" innerText="Save Changes" type="submit" />
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

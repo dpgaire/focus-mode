@@ -14,6 +14,22 @@ export default function Home() {
     setCurrentTask(ongoingTask ? ongoingTask.taskName : null);
   }, [updateTask]);
 
+  // Sync tasks with localStorage whenever tasks state changes
+  useEffect(() => {
+    if (tasks.length > 0) {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+  }, [tasks]);
+
+  // Function to update a task in the tasks array
+  const handleUpdateTask = (updatedTask) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === updatedTask.id ? { ...task, ...updatedTask } : task
+      )
+    );
+  };
+
   return (
     <>
       <Info />
@@ -25,7 +41,7 @@ export default function Home() {
         setTasks={setTasks}
         setUpdateTask={setUpdateTask}
       />
-      <Records tasks={tasks} />
+      <Records tasks={tasks} updateTask={handleUpdateTask} />
     </>
   );
 }

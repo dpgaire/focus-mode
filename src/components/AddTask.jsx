@@ -14,6 +14,7 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
       setError("Task name cannot be empty"); // Show error if task is empty
     } else {
       const newTask = {
+        id: Date.now().toString(36) + Math.random().toString(36).substr(2),
         taskName: task,
         timestamp: new Date().toLocaleString(), // Capture the timestamp
       };
