@@ -47,8 +47,8 @@ const Records = ({ tasks, currentTask, updateTask }) => {
 
   return (
     <div className="my-2 p-2">
-      <div className="flex justify-between items-center">
-        <span className="text-2xl font-bold">Records</span>
+      <div className="flex justify-between items-center flex-wrap">
+        <span className="lg:text-2xl text-xl font-bold">Records</span>
         <Button
           variant="primary"
           innerText="Download Log"

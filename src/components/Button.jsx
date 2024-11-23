@@ -5,7 +5,7 @@ const Button = ({ variant, innerText, type, onClick }) => {
     <button
       type={type}
       onClick={onClick}
-      className={`w-36 px-4 py-2 text-white rounded-lg ${
+      className={`lg:w-36 w-full px-4 py-2 text-white rounded-lg ${
         variant === "primary" ? "bg-blue-500" : "bg-red-500"
       }`}
     >

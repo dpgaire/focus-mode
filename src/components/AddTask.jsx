@@ -42,7 +42,9 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
 
   return (
     <div className="my-2 border rounded-lg shadow-lg p-2">
-      <span className="text-2xl font-bold block mb-2">Add New Task</span>
+      <span className="lg:text-2xl text-xl font-bold block mb-2">
+        Add New Task
+      </span>
       <Button
         variant="primary"
         innerText="Add Task"
