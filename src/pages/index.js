@@ -1,4 +1,5 @@
 import { AddTask, CurrentTask, Info, Records } from "@/components";
+import TaskGraph from "@/components/TaskGraph";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -32,6 +33,7 @@ export default function Home() {
 
   return (
     <>
+      <TaskGraph tasks={tasks} />
       <Info />
       {currentTask && (
         <CurrentTask currentTask={currentTask} setUpdateTask={setUpdateTask} />
