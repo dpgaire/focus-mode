@@ -16,7 +16,7 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
       const newTask = {
         id: Date.now().toString(36) + Math.random().toString(36).substr(2),
         taskName: task,
-        timestamp: new Date().toLocaleString(), // Capture the timestamp
+        timestamp: new Date().toISOString(), // Capture the timestamp
       };
 
       const updatedTasks = [...tasks, newTask];

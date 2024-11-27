@@ -27,11 +27,14 @@ const Records = ({ tasks, currentTask, updateTask }) => {
   };
 
   const formatCompletionDate = (timestamp) => {
-    const date = new Date(timestamp);
-    if (isNaN(date.getTime())) {
+    try {
+      // Ensure the timestamp is in ISO format
+      const isoTimestamp = new Date(timestamp).toISOString();
+      const date = new Date(isoTimestamp);
+      return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleString();
+    } catch {
       return "Invalid Date";
     }
-    return date.toLocaleString();
   };
 
   // Handle row click (set selected task for editing)
@@ -100,7 +103,6 @@ const Records = ({ tasks, currentTask, updateTask }) => {
 const RecordRow = ({ task, sn, formatCompletionDate, onClick }) => {
   const { taskName, timestamp } = task;
   const completionDate = formatCompletionDate(timestamp);
-
   return (
     <tr className="border-b hover:bg-gray-100" onClick={onClick}>
       <td className="px-4 py-2">{sn}</td>
