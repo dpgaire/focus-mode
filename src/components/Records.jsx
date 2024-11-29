@@ -54,7 +54,7 @@ const Records = ({ tasks, currentTask, updateTask }) => {
         <span className="lg:text-2xl text-xl font-bold">Records</span>
         <Button
           variant="primary"
-          innerText="Download Log"
+          innerText={`Download Log (${tasks.length})`}
           onClick={handleDownload}
         />
       </div>
