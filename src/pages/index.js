@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <>
       <TaskGraph tasks={tasks} />
-      <Info />
+      <Info tasks={tasks} />
       {currentTask && (
         <CurrentTask currentTask={currentTask} setUpdateTask={setUpdateTask} />
       )}
