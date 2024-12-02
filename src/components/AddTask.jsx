@@ -56,7 +56,7 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
           className="mt-2 flex flex-col gap-2 p-2 border rounded-lg shadow-lg"
         >
           <input
-            className={`py-2 px-4 w-full border rounded-lg ${
+            className={`py-2 px-4 w-full border text-gray-600 rounded-lg ${
               error ? "border-red-500" : ""
             }`}
             placeholder="Task name"

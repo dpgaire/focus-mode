@@ -1,13 +1,13 @@
 import React from "react";
 
 const info = [
+  "Set your phone to Do Not Disturb mode.",
   "Silence phone notifications.",
   "Keep a glass of water nearby.",
   "Ensure your laptop is charged.",
   "Use headphones for focus.",
   "Play concentration-boosting music.",
   "Maintain a comfortable seating posture.",
-  "Set your phone to Do Not Disturb mode.",
 ];
 
 // Helper function to get all dates between two dates (inclusive)
@@ -40,11 +40,11 @@ const Info = ({ tasks }) => {
   const totalDays = uniqueDays.size;
 
   return (
-    <div className="p-4 rounded-lg border shadow-lg text-gray-800 space-y-4">
+    <div className="p-4 rounded-lg border shadow-lg space-y-4">
       {/* Notes Section */}
       <div>
         <h2 className="text-lg font-bold mb-2">Focus Preparation Checklist</h2>
-        <ul className="list-disc pl-5 space-y-1 text-sm">
+        <ul className="list-disc pl-5 space-y-1 text-sm font-bold">
           {info.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
@@ -53,22 +53,22 @@ const Info = ({ tasks }) => {
 
       {/* Time Summary Section */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-        <div className="bg-gray-100 p-2 rounded-lg shadow-sm">
+        <div className="bg-blue-500 lg:bg-gray-100 p-2 rounded-lg shadow-sm">
           <span className="text-sm font-semibold">Days</span>
           <div className="text-lg font-bold">{totalDays}</div>
         </div>
-        <div className="bg-gray-100 p-2 rounded-lg shadow-sm">
+        <div className="bg-blue-500 lg:bg-gray-100 p-2 rounded-lg shadow-sm">
           <span className="text-sm font-semibold">Hours</span>
           <div className="text-lg font-bold">{totalHours.toFixed(2)}</div>
         </div>
-        <div className="bg-gray-100 p-2 rounded-lg shadow-sm">
+        <div className="bg-blue-500 lg:bg-gray-100 p-2 rounded-lg shadow-sm">
           <span className="text-sm font-semibold">Minutes</span>
           <div className="text-lg font-bold">
             {tasks.length + "* " + " 25 " + " = "}
             {totalMinutes}
           </div>
         </div>
-        <div className="bg-gray-100 p-2 rounded-lg shadow-sm">
+        <div className="bg-blue-500 lg:bg-gray-100 p-2 rounded-lg shadow-sm">
           <span className="text-sm font-semibold">Total Tasks</span>
           <div className="text-lg font-bold">{tasks.length}</div>
         </div>
