@@ -40,7 +40,7 @@ const Info = ({ tasks }) => {
   const totalDays = uniqueDays.size;
 
   return (
-    <div className="p-4 rounded-lg shadow-lg text-gray-800 bg-white space-y-4">
+    <div className="p-4 rounded-lg border shadow-lg text-gray-800 space-y-4">
       {/* Notes Section */}
       <div>
         <h2 className="text-lg font-bold mb-2">Focus Preparation Checklist</h2>
@@ -52,7 +52,7 @@ const Info = ({ tasks }) => {
       </div>
 
       {/* Time Summary Section */}
-      <div className="grid grid-cols-3 gap-4 text-center">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
         <div className="bg-gray-100 p-2 rounded-lg shadow-sm">
           <span className="text-sm font-semibold">Days</span>
           <div className="text-lg font-bold">{totalDays}</div>
@@ -63,7 +63,14 @@ const Info = ({ tasks }) => {
         </div>
         <div className="bg-gray-100 p-2 rounded-lg shadow-sm">
           <span className="text-sm font-semibold">Minutes</span>
-          <div className="text-lg font-bold">{totalMinutes}</div>
+          <div className="text-lg font-bold">
+            {tasks.length + "* " + " 25 " + " = "}
+            {totalMinutes}
+          </div>
+        </div>
+        <div className="bg-gray-100 p-2 rounded-lg shadow-sm">
+          <span className="text-sm font-semibold">Total Tasks</span>
+          <div className="text-lg font-bold">{tasks.length}</div>
         </div>
       </div>
     </div>
