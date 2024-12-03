@@ -31,6 +31,11 @@ export default function Home() {
     );
   };
 
+  const handleDeleteTask = (taskToDelete) => {
+    const filterTasks = tasks.filter((task) => task.id !== taskToDelete.id);
+    setTasks(filterTasks);
+  };
+
   return (
     <>
       <TaskGraph tasks={tasks} />
@@ -43,7 +48,11 @@ export default function Home() {
         setTasks={setTasks}
         setUpdateTask={setUpdateTask}
       />
-      <Records tasks={tasks} updateTask={handleUpdateTask} />
+      <Records
+        tasks={tasks}
+        updateTask={handleUpdateTask}
+        deleteTask={handleDeleteTask}
+      />
     </>
   );
 }

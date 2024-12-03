@@ -1,18 +1,16 @@
 import React, { useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { Button } from ".";
 
-const Records = ({ tasks, currentTask, updateTask }) => {
-  // State to track the task being edited
+const Records = ({ tasks, currentTask, updateTask, deleteTask }) => {
   const [selectedTask, setSelectedTask] = useState(null);
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
-  // Filter out the current task from the task list
+  // Filter and sort tasks
   const filteredTasks = tasks.filter((task) => task.taskName !== currentTask);
-
-  const sortedTasks = filteredTasks.sort((a, b) => {
-    const dateA = new Date(a.timestamp);
-    const dateB = new Date(b.timestamp);
-    return dateB - dateA; // Descending order (latest first)
-  });
+  const sortedTasks = filteredTasks.sort(
+    (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+  );
 
   const handleDownload = () => {
     const data = JSON.stringify(sortedTasks, null, 2);
@@ -28,24 +26,18 @@ const Records = ({ tasks, currentTask, updateTask }) => {
 
   const formatCompletionDate = (timestamp) => {
     try {
-      // Ensure the timestamp is in ISO format
-      const isoTimestamp = new Date(timestamp).toISOString();
-      const date = new Date(isoTimestamp);
+      const date = new Date(timestamp);
       return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleString();
     } catch {
       return "Invalid Date";
     }
   };
 
-  // Handle row click (set selected task for editing)
-  const handleRowClick = (task) => {
-    setSelectedTask(task);
-  };
-
-  // Handle updating the task
-  const handleUpdateTask = (updatedTask) => {
-    updateTask(updatedTask); // This will be passed as a prop to update the tasks in the parent component
-    setSelectedTask(null); // Close the modal
+  const handleDeleteTask = () => {
+    if (taskToDelete) {
+      deleteTask(taskToDelete); // Pass the task to the parent component for deletion
+      setTaskToDelete(null); // Close the confirmation modal
+    }
   };
 
   return (
@@ -59,7 +51,7 @@ const Records = ({ tasks, currentTask, updateTask }) => {
         />
       </div>
       <div className="max-h-96 overflow-auto">
-        {sortedTasks?.length === 0 ? (
+        {sortedTasks.length === 0 ? (
           <div className="text-gray-500 mt-4">
             No completed tasks available.
           </div>
@@ -71,16 +63,18 @@ const Records = ({ tasks, currentTask, updateTask }) => {
                 <th className="px-4 py-2 border-b">Task Name</th>
                 <th className="px-4 py-2 border-b">Completion Date</th>
                 <th className="px-4 py-2 border-b">Status</th>
+                <th className="px-4 py-2 border-b">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {sortedTasks?.map((task, index) => (
+              {sortedTasks.map((task, index) => (
                 <RecordRow
-                  key={index}
+                  key={task.id || index}
                   task={task}
                   sn={index + 1}
                   formatCompletionDate={formatCompletionDate}
-                  onClick={() => handleRowClick(task)} // Set the selected task on click
+                  onEdit={() => setSelectedTask(task)}
+                  onDelete={() => setTaskToDelete(task)}
                 />
               ))}
             </tbody>
@@ -88,55 +82,68 @@ const Records = ({ tasks, currentTask, updateTask }) => {
         )}
       </div>
 
-      {/* Modal to edit task */}
       {selectedTask && (
         <TaskEditModal
           task={selectedTask}
           onClose={() => setSelectedTask(null)}
-          onUpdate={handleUpdateTask}
+          onUpdate={(updatedTask) => {
+            updateTask(updatedTask);
+            setSelectedTask(null);
+          }}
+        />
+      )}
+
+      {taskToDelete && (
+        <DeleteConfirmationModal
+          taskName={taskToDelete.taskName}
+          onConfirm={handleDeleteTask}
+          onCancel={() => setTaskToDelete(null)}
         />
       )}
     </div>
   );
 };
 
-const RecordRow = ({ task, sn, formatCompletionDate, onClick }) => {
-  const { taskName, timestamp } = task;
-  const completionDate = formatCompletionDate(timestamp);
+const RecordRow = ({ task, sn, formatCompletionDate, onEdit, onDelete }) => {
+  const { taskName, timestamp, status } = task;
+
   return (
-    <tr className="border-b hover:bg-gray-100" onClick={onClick}>
+    <tr className="border-b hover:bg-gray-100">
       <td className="px-4 py-2">{sn}</td>
       <td className="px-4 py-2">{taskName}</td>
-      <td className="px-4 py-2">{completionDate}</td>
+      <td className="px-4 py-2">{formatCompletionDate(timestamp)}</td>
       <td
         className={`px-4 py-2 ${
-          task?.status === "completed" ? "text-green-500" : "text-yellow-500"
+          status === "completed" ? "text-green-500" : "text-yellow-500"
         }`}
       >
-        {!task?.status
-          ? "Pending"
-          : task?.status?.charAt(0).toUpperCase() + task?.status?.slice(1)}
+        {status ? status.charAt(0).toUpperCase() + status.slice(1) : "Pending"}
+      </td>
+      <td className="px-4 py-2 inline-flex gap-2">
+        <FaEdit
+          onClick={onEdit}
+          className="text-xl text-blue-300 cursor-pointer hover:text-blue-500"
+        />
+        <FaTrash
+          onClick={onDelete}
+          className="text-xl text-red-300 cursor-pointer hover:text-red-500"
+        />
       </td>
     </tr>
   );
 };
 
 const TaskEditModal = ({ task, onClose, onUpdate }) => {
-  const [editedTask, setEditedTask] = useState({
-    ...task, // Copy existing task data
-  });
+  const [editedTask, setEditedTask] = useState({ ...task });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedTask((prevTask) => ({
-      ...prevTask,
-      [name]: value,
-    }));
+    setEditedTask((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onUpdate(editedTask); // Update the task with the edited data
+    onUpdate(editedTask);
   };
 
   return (
@@ -186,5 +193,20 @@ const TaskEditModal = ({ task, onClose, onUpdate }) => {
     </div>
   );
 };
+
+const DeleteConfirmationModal = ({ taskName, onConfirm, onCancel }) => (
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+    <div className="bg-white p-6 rounded-lg w-80">
+      <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
+      <p className="mb-6">
+        Are you sure you want to delete the task <strong>{taskName}</strong>?
+      </p>
+      <div className="flex justify-end space-x-4">
+        <Button variant="secondary" innerText="Cancel" onClick={onCancel} />
+        <Button variant="danger" innerText="Delete" onClick={onConfirm} />
+      </div>
+    </div>
+  </div>
+);
 
 export default Records;
