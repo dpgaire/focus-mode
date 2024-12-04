@@ -148,7 +148,7 @@ const TaskEditModal = ({ task, onClose, onUpdate }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg w-96">
+      <div className="bg-white p-6 rounded-lg w-96 text-black">
         <h2 className="text-xl font-bold mb-4">Edit Task</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -196,7 +196,7 @@ const TaskEditModal = ({ task, onClose, onUpdate }) => {
 
 const DeleteConfirmationModal = ({ taskName, onConfirm, onCancel }) => (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-    <div className="bg-white p-6 rounded-lg w-80">
+    <div className="bg-white p-6 rounded-lg w-80 text-black">
       <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
       <p className="mb-6">
         Are you sure you want to delete the task <strong>{taskName}</strong>?
