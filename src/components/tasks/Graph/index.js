@@ -9,6 +9,7 @@ import {
   Legend,
   PointElement,
 } from "chart.js";
+import { HeaderTitle } from "@/components/common";
 
 ChartJS.register(
   LineElement,
@@ -63,7 +64,7 @@ const TaskGraph = ({ tasks }) => {
 
   return (
     <div className="my-4 p-2 border rounded-lg shadow-md w-full h-auto">
-      <h2 className="text-lg font-semibold mb-2">Task Completion Over Time</h2>
+      <HeaderTitle headerText="Task Completion Over Time" />
       <div style={{ width: "100%", height: "100%" }}>
         <Line data={data} options={options} />
       </div>

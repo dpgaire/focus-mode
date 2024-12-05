@@ -1,6 +1,12 @@
-import { AddTask, CurrentTask, Info, Records } from "@/components";
-import TaskGraph from "@/components/TaskGraph";
 import { useEffect, useState } from "react";
+
+import {
+  AddTask,
+  CurrentTask,
+  TaskGraph,
+  Info,
+  Records,
+} from "@/components/tasks";
 
 export default function Home() {
   const [currentTask, setCurrentTask] = useState(null);

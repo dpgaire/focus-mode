@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Button } from ".";
+import { Button, HeaderTitle, TextInput } from "@/components/common";
+import { useState } from "react";
 
 const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
   const [openForm, setOpenForm] = useState(false);
@@ -42,9 +42,7 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
 
   return (
     <div className="my-2 border rounded-lg shadow-lg p-2">
-      <span className="lg:text-2xl text-xl font-bold block mb-2">
-        Add New Task
-      </span>
+      <HeaderTitle headerText="Add New Task" />
       <Button
         variant="primary"
         innerText="Add Task"
@@ -55,20 +53,13 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
           onSubmit={handleFormSubmit}
           className="mt-2 flex flex-col gap-2 p-2 border rounded-lg shadow-lg"
         >
-          <input
-            className={`py-2 px-4 w-full border text-gray-600 rounded-lg ${
-              error ? "border-red-500" : ""
-            }`}
-            placeholder="Task name"
+          <TextInput
             name="task"
             value={task}
             onChange={handleInputChange}
+            placeholder="Task name"
+            error={error}
           />
-          {error && (
-            <div className="text-red-500 text-sm mt-1">
-              {error} {/* Display error message */}
-            </div>
-          )}
           <Button type="submit" variant="primary" innerText="Submit" />
         </form>
       )}

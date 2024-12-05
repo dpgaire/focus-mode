@@ -1,6 +1,6 @@
+import { Button, HeaderTitle } from "@/components/common";
 import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { Button } from ".";
 
 const Records = ({ tasks, currentTask, updateTask, deleteTask }) => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -43,7 +43,7 @@ const Records = ({ tasks, currentTask, updateTask, deleteTask }) => {
   return (
     <div className="my-2 p-2">
       <div className="flex justify-between items-center flex-wrap">
-        <span className="lg:text-2xl text-xl font-bold">Records</span>
+        <HeaderTitle headerText="Records" />
         <Button
           variant="primary"
           innerText={`Download Log (${tasks.length})`}
