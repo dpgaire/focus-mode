@@ -33,4 +33,18 @@ const formatTime = (timeInSeconds) => {
   )}`;
 };
 
-export { getDatesBetween, calculateUniqueDays, formatTime };
+const formatCompletionDate = (timestamp) => {
+  try {
+    const date = new Date(timestamp);
+    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleString();
+  } catch {
+    return "Invalid Date";
+  }
+};
+
+export {
+  getDatesBetween,
+  calculateUniqueDays,
+  formatTime,
+  formatCompletionDate,
+};
