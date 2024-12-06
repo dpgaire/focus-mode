@@ -3,8 +3,8 @@ import { formatTime } from "@/utils";
 import { HeaderTitle, Button } from "@/components/common";
 
 const CurrentTask = ({ currentTask, setUpdateTask }) => {
-  //   const [time, setTime] = useState(60 * 25); // For testing with 10 seconds
-  const [time, setTime] = useState(2); // For testing with 10 seconds
+  const [time, setTime] = useState(60 * 25); // For testing with 10 seconds
+  // const [time, setTime] = useState(2); // For testing with 10 seconds
   const [alarm, setAlarm] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const startTimeRef = useRef(null);
