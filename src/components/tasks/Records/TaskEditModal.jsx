@@ -54,7 +54,7 @@ const TaskEditModal = ({ task, onClose, onUpdate }) => {
             </select>
           </div>
           <div className="flex justify-end space-x-4">
-            <Button variant="secondary" innerText="Cancel" onClick={onClose} />
+            <Button variant="outline" innerText="Cancel" onClick={onClose} />
             <Button variant="primary" innerText="Save Changes" type="submit" />
           </div>
         </form>

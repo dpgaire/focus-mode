@@ -4,7 +4,7 @@ const InfoList = ({ info }) => {
   return (
     <>
       <HeaderTitle headerText="Focus Preparation Checklist" />
-      <ul className="list-disc pl-5 space-y-1 text-sm font-bold">
+      <ul className="list-disc pl-5 space-y-1 text-sm font-normal">
         {info.map((item, index) => (
           <li key={index}>{item}</li>
         ))}

@@ -8,7 +8,7 @@ const DeleteConfirmationModal = ({ taskName, onConfirm, onCancel }) => (
         Are you sure you want to delete the task <strong>{taskName}</strong>?
       </p>
       <div className="flex justify-end space-x-4">
-        <Button variant="secondary" innerText="Cancel" onClick={onCancel} />
+        <Button variant="outline" innerText="Cancel" onClick={onCancel} />
         <Button variant="danger" innerText="Delete" onClick={onConfirm} />
       </div>
     </div>

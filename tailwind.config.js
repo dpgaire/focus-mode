@@ -9,8 +9,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "var(--background-primary)",
+        secondary: "var(--background-secondary)",
+        danger: "var(--background-danger)",
       },
       screens: {
         sm: "640px",

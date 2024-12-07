@@ -22,7 +22,7 @@ export default TimeSummary;
 
 // Reusable summary card component
 const SummaryCard = ({ label, value }) => (
-  <div className="bg-blue-500 lg:bg-gray-100 p-2 rounded-lg shadow-sm">
+  <div className="bg-primary lg:bg-gray-100 text-white md:text-black p-2 rounded-lg shadow-sm">
     <span className="text-sm font-semibold">{label}</span>
     <div className="text-lg font-bold">{value}</div>
   </div>

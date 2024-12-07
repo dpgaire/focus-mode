@@ -56,6 +56,7 @@ export default function Home() {
       />
       <Records
         tasks={tasks}
+        setTasks={setTasks}
         updateTask={handleUpdateTask}
         deleteTask={handleDeleteTask}
       />

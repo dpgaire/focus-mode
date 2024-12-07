@@ -79,8 +79,10 @@ const CurrentTask = ({ currentTask, setUpdateTask }) => {
     <div className="my-2 border rounded-lg shadow-lg p-2">
       <HeaderTitle headerText="Current Task" />
       <div className="p-4 my-2 flex justify-between flex-wrap items-center border rounded-lg shadow-lg">
-        <span className="text-xl">{currentTask}</span>
-        <span className="text-2xl md:text-6xl">{formatTime(time)}</span>
+        <span className="text-xl font-normal">{currentTask}</span>
+        <span className="text-2xl md:text-5xl font-normal">
+          {formatTime(time)}
+        </span>
         <Button
           variant={isRunning ? "danger" : "primary"}
           innerText={isRunning ? "Stop" : "Start"}

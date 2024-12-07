@@ -17,7 +17,7 @@ const NotFound = () => {
         Page not found
       </span>
 
-      <Link href={"/"} className="py-4 px-20 lg:px-40 bg-blue-500 text-white">
+      <Link href={"/"} className="py-4 px-20 lg:px-40 bg-primary text-white">
         Go to home
       </Link>
     </div>
