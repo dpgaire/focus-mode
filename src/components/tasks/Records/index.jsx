@@ -65,9 +65,9 @@ const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
 
   return (
     <div className="my-2 p-2">
-      <div className="flex justify-between items-center flex-wrap gap-2">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center flex-wrap gap-2">
         <HeaderTitle headerText="Records" />
-        <div className="flex items-center justify-end flex-grow gap-1">
+        <div className="flex-col lg:flex-row w-full lg:w-auto flex items-center justify-end flex-grow gap-1">
           <Button
             variant="primary"
             innerText={`Import Logs`}
