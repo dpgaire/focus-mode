@@ -8,4 +8,17 @@ const InfoData = [
   "Maintain a comfortable seating posture.",
 ];
 
-export { InfoData };
+const categories = [
+  "Housing",
+  "Utilities",
+  "Food",
+  "Transport",
+  "Petrol",
+  "Bike Service",
+  "Health",
+  "Debt",
+  "Bill Payment",
+  "Topup",
+];
+
+export { InfoData, categories };
