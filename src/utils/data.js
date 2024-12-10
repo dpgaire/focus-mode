@@ -9,17 +9,52 @@ const InfoData = [
 ];
 
 const categories = [
-  "Income",
-  "Housing",
-  "Utilities",
-  "Food",
-  "Transport",
-  "Petrol",
-  "Bike Service",
-  "Health",
-  "Debt",
-  "Bill Payment",
-  "Topup",
+  { value: "income", name: "Income" },
+  { value: "housing", name: "Housing" },
+  { value: "utilities", name: "Utilities" },
+  { value: "food", name: "Food" },
+  { value: "transport", name: "Transport" },
+  { value: "petrol", name: "Petrol" },
+  { value: "bike_service", name: "Bike Service" },
+  { value: "health", name: "Health" },
+  { value: "debt", name: "Debt" },
+  { value: "bill_payment", name: "Bill Payment" },
+  { value: "topup", name: "Topup" },
 ];
 
-export { InfoData, categories };
+const expenseTypes = [
+  { value: "expense", name: "Expense" },
+  { value: "income", name: "Income" },
+];
+
+const statusOptions = [
+  { value: "completed", name: "Completed" },
+  { value: "pending", name: "Pending" },
+];
+
+const expenseColumn = [
+  "S/N",
+  "Item Name",
+  "Amount",
+  "Category",
+  "Date",
+  "Type",
+  "Actions",
+];
+
+const tasksColumn = [
+  "S/N",
+  "Task Name",
+  "Completion Date",
+  "Status",
+  "Actions",
+];
+
+export {
+  InfoData,
+  categories,
+  expenseTypes,
+  statusOptions,
+  expenseColumn,
+  tasksColumn,
+};

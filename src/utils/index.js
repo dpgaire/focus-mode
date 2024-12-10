@@ -46,10 +46,30 @@ function generateUniqueId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
+const calculateStats = (data) => {
+  const income = data
+    .filter((record) => record.type === "income")
+    .reduce((sum, record) => sum + (Number(record.price) || 0), 0);
+
+  const expenses = data
+    .filter((record) => record.type === "expense")
+    .reduce((sum, record) => sum + (Number(record.price) || 0), 0);
+
+  const expenseCategories = data
+    .filter((record) => record.type === "expense")
+    .reduce((acc, record) => {
+      acc[record.category] = (acc[record.category] || 0) + Number(record.price);
+      return acc;
+    }, {});
+
+  return { income, expenses, remaining: income - expenses, expenseCategories };
+};
+
 export {
   getDatesBetween,
   calculateUniqueDays,
   formatTime,
   formatCompletionDate,
   generateUniqueId,
+  calculateStats,
 };

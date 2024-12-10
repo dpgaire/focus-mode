@@ -8,33 +8,14 @@ import {
 import { categories } from "@/utils/data";
 import { generateUniqueId } from "@/utils";
 
-const AddExpense = () => {
+const AddExpense = ({ records, setRecords }) => {
   const [openForm, setOpenForm] = useState(false);
-  const [formType, setFormType] = useState("expense"); // "expense" or "income"
-  const [records, setRecords] = useState([]);
+  const [formType, setFormType] = useState("expense");
   const [formData, setFormData] = useState({
     item: "",
     price: "",
     category: "",
   });
-
-  useEffect(() => {
-    const savedRecords = JSON.parse(localStorage.getItem("records")) || [];
-    setRecords(savedRecords);
-    calculateStats(savedRecords);
-  }, []);
-
-  const calculateStats = (data) => {
-    const income = data
-      .filter((record) => record.type === "income")
-      .reduce((sum, record) => sum + Number(record.price), 0);
-    const expenses = data
-      .filter((record) => record.type === "expense")
-      .reduce((sum, record) => sum + Number(record.price), 0);
-
-    console.log("Total Income:", income);
-    console.log("Total Expenses:", expenses);
-  };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -49,7 +30,6 @@ const AddExpense = () => {
     localStorage.setItem("records", JSON.stringify(updatedRecords));
     setFormData({ item: "", price: "", category: "" });
     setOpenForm(false);
-    calculateStats(updatedRecords);
   };
 
   const handleInputChange = (e) => {

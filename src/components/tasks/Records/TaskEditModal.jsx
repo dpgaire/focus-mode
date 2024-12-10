@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 import { Button, Modal, SelectField, TextInput } from "@/components/common";
-
-const statusOptions = ["Select Status", "Completed", "Pending"];
+import { statusOptions } from "@/utils/data";
 
 const TaskEditModal = ({ task, onClose, onUpdate }) => {
   const [editedTask, setEditedTask] = useState({ ...task });
@@ -40,8 +39,8 @@ const TaskEditModal = ({ task, onClose, onUpdate }) => {
         <div className="mb-4">
           <SelectField
             value={editedTask.status || ""}
-            label="Category"
-            name="category"
+            label="Status"
+            name="status"
             onChange={handleInputChange}
             options={statusOptions}
           />

@@ -5,12 +5,16 @@ import {
   ExpenseGraph,
   ExpenseRecords,
 } from "@/components/expenses";
+import { calculateStats } from "@/utils";
+import CategoryStat from "@/components/tasks/Graph/CategoryStat";
+import { categories } from "@/utils/data";
 
 const Index = () => {
   const [budgetStats, setBudgetStats] = useState({
     income: 0,
     expenses: 0,
     remaining: 0,
+    categories: {},
   });
 
   const [records, setRecords] = useState([]);
@@ -18,42 +22,50 @@ const Index = () => {
   useEffect(() => {
     const savedRecords = JSON.parse(localStorage.getItem("records")) || [];
     setRecords(savedRecords);
+    const stats = calculateStats(savedRecords); // Call the imported function
+    setBudgetStats(stats);
     calculateStats(savedRecords);
   }, []);
 
-  const calculateStats = (data) => {
-    const income = data
-      .filter((record) => record.type === "income")
-      .reduce((sum, record) => sum + Number(record.price), 0);
-    const expenses = data
-      .filter((record) => record.type === "expense")
-      .reduce((sum, record) => sum + Number(record.price), 0);
-    setBudgetStats({ income, expenses, remaining: income - expenses });
-  };
-  console.log("records", records);
-
-  const handleEdit = (task) => {
-    console.log("Editing", task);
+  const handleEdit = (updatedExpense) => {
+    setRecords((prevExpense) =>
+      prevExpense.map((expense) =>
+        expense.id === updatedExpense.id
+          ? { ...expense, ...updatedExpense }
+          : expense
+      )
+    );
   };
 
-  const handleDelete = (task) => {
-    console.log("Deleting", task);
+  const handleDeleteExpense = (expenseToDelete) => {
+    const filterRecords = records.filter(
+      (record) => record.id !== expenseToDelete.id
+    );
+    setRecords(filterRecords);
   };
+
+  // Sync tasks with localStorage whenever records state changes
+  useEffect(() => {
+    if (records.length > 0) {
+      localStorage.setItem("records", JSON.stringify(records));
+    }
+  }, [records]);
 
   return (
-    <div>
+    <>
       <ExpenseGraph
         income={budgetStats.income}
         expenses={budgetStats.expenses}
         remaining={budgetStats.remaining}
+        categoryStat={budgetStats.expenseCategories}
       />
-      <AddExpense />
+      <AddExpense records={records} setRecords={setRecords} />
       <ExpenseRecords
         records={records}
         onEdit={handleEdit}
-        onDelete={handleDelete}
+        onDelete={handleDeleteExpense}
       />
-    </div>
+    </>
   );
 };
 
