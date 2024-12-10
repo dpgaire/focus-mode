@@ -5,71 +5,44 @@ import {
   MdRemoveShoppingCart,
   MdMoneyOff,
 } from "react-icons/md";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-const ExpenseGraph = ({ income, expenses, remaining, categories }) => {
-  const data = {
-    labels: ["Income", "Expenses", "Remaining"],
-    datasets: [
-      {
-        label: "Budget Overview",
-        data: [income, expenses, remaining],
-        backgroundColor: ["#4CAF50", "#FF6347", "#FFD700"], // Colors for each bar
-        borderColor: ["#388E3C", "#D32F2F", "#FFB300"],
-        borderWidth: 1,
-      },
-    ],
-  };
-
+const ExpenseGraph = ({ income, expenses, remaining, categoryStat }) => {
   return (
     <div className="mt-4 p-6 border rounded-lg shadow-lg">
       <HeaderTitle headerText="Budget Overview" />
 
       {/* Overview with Icons and Bold Text */}
-      <div className="flex justify-between mb-4">
-        <div className="flex items-center border shadow-lg p-6 rounded-lg">
+      <div className="flex justify-between mb-4 text-xl">
+        <div className="flex items-center border text-green-500 shadow-lg p-6 rounded-lg">
           <MdAttachMoney className="text-green-500 mr-2" />
           <p className="font-bold">Income: Rs. {income}</p>
         </div>
-        <div className="flex items-center border shadow-lg p-6 rounded-lg">
+        <div className="flex items-center border text-red-500 shadow-lg p-6 rounded-lg">
           <MdRemoveShoppingCart className="text-red-500 mr-2" />
           <p className="font-bold">Expenses: Rs. {expenses}</p>
         </div>
-        <div className="flex items-center border shadow-lg p-6 rounded-lg">
+        <div className="flex items-center border text-yellow-500 shadow-lg p-6 rounded-lg">
           <MdMoneyOff className="text-yellow-500 mr-2" />
           <p className="font-bold">Remaining: Rs. {remaining}</p>
         </div>
       </div>
-
-      {/* Bar Chart */}
-      {/* <div className="mt-6">
-        <Bar
-          data={data}
-          options={{
-            responsive: true,
-            plugins: { title: { display: true, text: "Budget Distribution" } },
-          }}
-        />
-      </div> */}
+      {/* {categoryStat.length > 0 && (
+        <>
+          <HeaderTitle headerText="Category Overview" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            {Object.entries(categoryStat)?.map(([category, amount]) => (
+              <div key={category} className="bg-white p-6 rounded-lg shadow-lg">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {category}
+                </h3>
+                <p className="text-lg font-bold text-red-600 mt-2">
+                  Rs.{amount.toLocaleString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        </>
+      )} */}
     </div>
   );
 };

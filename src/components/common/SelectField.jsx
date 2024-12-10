@@ -7,11 +7,11 @@ const SelectField = ({ value, label, name, onChange, options }) => {
         onChange={onChange}
         className="w-full p-2 border rounded bg-white"
       >
-        <option value="">Select {label}</option>
+        <option value="">{`Select ${label}`}</option>
         {options && options.length > 0 ? (
-          options.map((option, index) => (
-            <option key={index} value={option}>
-              {option}
+          options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.name}
             </option>
           ))
         ) : (

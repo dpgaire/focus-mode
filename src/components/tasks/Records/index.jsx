@@ -2,8 +2,7 @@ import { Button, HeaderTitle, Table } from "@/components/common";
 import React, { useState } from "react";
 import TaskEditModal from "./TaskEditModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
-
-const columns = ["S/N", "Task Name", "Completion Date", "Status", "Actions"];
+import { tasksColumn } from "@/utils/data";
 
 const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -90,7 +89,7 @@ const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
       </div>
       <div className="mt-4">
         <Table
-          columns={columns}
+          columns={tasksColumn}
           rowList={filteredTasks}
           onEdit={setSelectedTask}
           onDelete={setTaskToDelete}

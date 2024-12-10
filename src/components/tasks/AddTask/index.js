@@ -1,5 +1,7 @@
-import { Button, HeaderTitle, TextInput } from "@/components/common";
 import { useState } from "react";
+
+import { Button, HeaderTitle, TextInput } from "@/components/common";
+import { generateUniqueId } from "@/utils";
 
 const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
   const [openForm, setOpenForm] = useState(false);
@@ -14,9 +16,10 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
       setError("Task name cannot be empty"); // Show error if task is empty
     } else {
       const newTask = {
-        id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+        id: generateUniqueId(),
         taskName: task,
-        timestamp: new Date().toISOString(), // Capture the timestamp
+        timestamp: new Date().toISOString(),
+        status: "pending",
       };
 
       const updatedTasks = [...tasks, newTask];
