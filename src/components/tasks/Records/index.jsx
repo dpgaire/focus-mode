@@ -1,10 +1,9 @@
-import { Button, HeaderTitle } from "@/components/common";
+import { Button, HeaderTitle, Table } from "@/components/common";
 import React, { useState } from "react";
-import RecordRow from "./RecordRow";
-import TableHead from "./TableHead";
 import TaskEditModal from "./TaskEditModal";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
-import { formatCompletionDate } from "@/utils";
+
+const columns = ["S/N", "Task Name", "Completion Date", "Status", "Actions"];
 
 const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -63,6 +62,15 @@ const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
     }
   };
 
+  const filteredTasks = tasks.map((task) => {
+    // Filter tasks based on the completedAt field
+    if (task.completedAt) {
+      const { completedAt, ...taskWithoutCompletedAt } = task; // Remove completedAt
+      return taskWithoutCompletedAt;
+    }
+    return task;
+  });
+
   return (
     <div className="my-2 p-2">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center flex-wrap gap-2">
@@ -80,30 +88,14 @@ const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
           />
         </div>
       </div>
-      <div className="max-h-96 overflow-auto">
-        {sortedTasks.length === 0 ? (
-          <div className="text-gray-500 mt-4">
-            No completed tasks available.
-          </div>
-        ) : (
-          <table className="min-w-full table-auto border mt-4">
-            <TableHead />
-            <tbody>
-              {sortedTasks.map((task, index) => (
-                <RecordRow
-                  key={task.id || index}
-                  task={task}
-                  sn={index + 1}
-                  formatCompletionDate={formatCompletionDate}
-                  onEdit={() => setSelectedTask(task)}
-                  onDelete={() => setTaskToDelete(task)}
-                />
-              ))}
-            </tbody>
-          </table>
-        )}
+      <div className="mt-4">
+        <Table
+          columns={columns}
+          rowList={filteredTasks}
+          onEdit={setSelectedTask}
+          onDelete={setTaskToDelete}
+        />
       </div>
-
       {selectedTask && (
         <TaskEditModal
           task={selectedTask}

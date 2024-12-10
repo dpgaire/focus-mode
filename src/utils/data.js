@@ -9,6 +9,7 @@ const InfoData = [
 ];
 
 const categories = [
+  "Income",
   "Housing",
   "Utilities",
   "Food",
