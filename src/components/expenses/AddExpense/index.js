@@ -10,16 +10,12 @@ import { generateUniqueId } from "@/utils";
 
 const AddExpense = () => {
   const [openForm, setOpenForm] = useState(false);
+  const [formType, setFormType] = useState("expense"); // "expense" or "income"
   const [records, setRecords] = useState([]);
   const [formData, setFormData] = useState({
     item: "",
     price: "",
     category: "",
-  });
-  const [budgetStats, setBudgetStats] = useState({
-    income: 0,
-    expenses: 0,
-    remaining: 0,
   });
 
   useEffect(() => {
@@ -35,7 +31,9 @@ const AddExpense = () => {
     const expenses = data
       .filter((record) => record.type === "expense")
       .reduce((sum, record) => sum + Number(record.price), 0);
-    setBudgetStats({ income, expenses, remaining: income - expenses });
+
+    console.log("Total Income:", income);
+    console.log("Total Expenses:", expenses);
   };
 
   const handleFormSubmit = (e) => {
@@ -43,8 +41,8 @@ const AddExpense = () => {
     const newRecord = {
       id: generateUniqueId(),
       ...formData,
-      // date: Date.now(),
-      // type: "expense",
+      timestamp: Date.now(),
+      type: formType, // Dynamically set the type (either income or expense)
     };
     const updatedRecords = [...records, newRecord];
     setRecords(updatedRecords);
@@ -59,12 +57,10 @@ const AddExpense = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // const handleDelete = (id) => {
-  //   const updatedRecords = records.filter((record) => record.id !== id);
-  //   setRecords(updatedRecords);
-  //   localStorage.setItem("records", JSON.stringify(updatedRecords));
-  //   calculateStats(updatedRecords);
-  // };
+  const handleFormTypeToggle = (type) => {
+    setFormType(type); // Set type to either "income" or "expense"
+    setOpenForm(true); // Open form when switching types
+  };
 
   return (
     <div className="my-4 p-4 border rounded-lg shadow-lg">
@@ -73,7 +69,12 @@ const AddExpense = () => {
         <Button
           variant="primary"
           innerText="Add Expense"
-          onClick={() => setOpenForm((prevState) => !prevState)}
+          onClick={() => handleFormTypeToggle("expense")}
+        />
+        <Button
+          variant="primary"
+          innerText="Add Income"
+          onClick={() => handleFormTypeToggle("income")}
         />
       </div>
 
@@ -86,13 +87,9 @@ const AddExpense = () => {
             name="item"
             value={formData.item}
             onChange={handleInputChange}
-            placeholder="Item name"
-          />
-          <TextInput
-            name="price"
-            value={formData.price}
-            onChange={handleInputChange}
-            placeholder="Amount"
+            placeholder={`${
+              formType === "income" ? "Income Name" : "Item name"
+            }`}
           />
           <SelectField
             value={formData.category}
@@ -100,6 +97,12 @@ const AddExpense = () => {
             name="category"
             onChange={handleInputChange}
             options={categories}
+          />
+          <TextInput
+            name="price"
+            value={formData.price}
+            onChange={handleInputChange}
+            placeholder="Amount"
           />
           <Button type="submit" variant="primary" innerText="Submit" />
         </form>

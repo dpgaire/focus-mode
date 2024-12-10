@@ -40,19 +40,14 @@ const Index = () => {
     console.log("Deleting", task);
   };
 
-  //   const budgetStats = {
-  //     income: "Rs.80000",
-  //     expenses: "Rs.2000",
-  //     remaining: "780000",
-  //   };
   return (
     <div>
-      <AddExpense />
       <ExpenseGraph
         income={budgetStats.income}
         expenses={budgetStats.expenses}
         remaining={budgetStats.remaining}
       />
+      <AddExpense />
       <ExpenseRecords
         records={records}
         onEdit={handleEdit}
