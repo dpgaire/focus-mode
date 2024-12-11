@@ -12,7 +12,7 @@ const ExpenseGraph = ({ income, expenses, remaining, categoryStat }) => {
       <HeaderTitle headerText="Budget Overview" />
 
       {/* Overview with Icons and Bold Text */}
-      <div className="flex justify-between mb-4 text-xl">
+      <div className="flex justify-between flex-wrap mb-4 text-xl">
         <div className="flex items-center border text-green-500 shadow-lg p-6 rounded-lg">
           <MdAttachMoney className="text-green-500 mr-2" />
           <p className="font-bold">Income: Rs. {income}</p>
