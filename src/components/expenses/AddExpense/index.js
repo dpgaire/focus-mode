@@ -45,7 +45,7 @@ const AddExpense = ({ records, setRecords }) => {
   return (
     <div className="my-4 p-4 border rounded-lg shadow-lg">
       <HeaderTitle headerText="Budget Tracker" />
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center gap-2 mb-4">
         <Button
           variant="primary"
           innerText="Add Expense"
