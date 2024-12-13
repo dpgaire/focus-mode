@@ -62,6 +62,7 @@ const Index = () => {
       <AddExpense records={records} setRecords={setRecords} />
       <ExpenseRecords
         records={records}
+        setRecords={setRecords}
         onEdit={handleEdit}
         onDelete={handleDeleteExpense}
       />

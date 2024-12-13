@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import { HeaderTitle, Table } from "@/components/common";
+import { DownloadUploadLog, Table } from "@/components/common";
 import UpdateRecords from "./UpdateRecords";
 import DeleteRecord from "./DeleteRecord";
 
-const ExpenseRecords = ({ records, onEdit, onDelete }) => {
+const ExpenseRecords = ({ records, setRecords, onEdit, onDelete }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [expenseToDelete, setExpenseToDelete] = useState(null);
 
@@ -17,7 +17,11 @@ const ExpenseRecords = ({ records, onEdit, onDelete }) => {
 
   return (
     <div className="mt-4">
-      <HeaderTitle headerText="Records" />
+      <DownloadUploadLog
+        records={records}
+        setRecords={setRecords}
+        logName="wallet_logs_"
+      />
       <Table
         columns={columns}
         rowList={records}
