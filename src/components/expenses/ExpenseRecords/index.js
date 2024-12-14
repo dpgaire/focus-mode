@@ -16,10 +16,14 @@ const ExpenseRecords = ({ records, setRecords, onEdit, onDelete }) => {
     }
   };
 
+  const sortedRecords = records.sort(
+    (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+  );
+
   return (
     <div className="record-table">
       <DownloadUploadLog
-        records={records}
+        records={sortedRecords}
         setRecords={setRecords}
         logName="wallet_logs_"
       />
