@@ -4,8 +4,7 @@ import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="p-4 flex justify-center items-center flex-col gap-2 text-sm bg-primary text-white">
-      <span>Developed by Durga Gairhe</span>
+    <div className="flex-center p-4 flex-col gap-2 text-sm bg-primary text-white">
       <div className="flex items-center gap-2 text-xl">
         <Link href={"https://github.com/dpgaire"} target="_blank">
           <FaGithub />
@@ -17,6 +16,7 @@ const Footer = () => {
           <FaLinkedinIn />
         </Link>
       </div>
+      <span className="text-xs">Developed by Durga Gairhe</span>
     </div>
   );
 };

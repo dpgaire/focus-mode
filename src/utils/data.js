@@ -50,6 +50,16 @@ const tasksColumn = [
   "Actions",
 ];
 
+const expenseColumns = [
+  "S/N",
+  "Item Name",
+  "Amount",
+  "Category",
+  "Date",
+  "Type",
+  "Actions",
+];
+
 export {
   InfoData,
   categories,
@@ -57,4 +67,5 @@ export {
   statusOptions,
   expenseColumn,
   tasksColumn,
+  expenseColumns,
 };

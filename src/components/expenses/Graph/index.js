@@ -10,7 +10,7 @@ const WalletCard = ({ type, amount, gradientColors, onClick, children }) => {
   return (
     <div
       onClick={onClick}
-      className={`relative min-w-full md:min-w-96 flex items-center flex-col border shadow-lg p-6 rounded-lg cursor-pointer ${gradientColors}`}
+      className={`relative min-w-full md:min-w-96 flex items-center flex-col border p-6 rounded-lg cursor-pointer ${gradientColors}`}
     >
       {children}
       <p className="font-bold text-xl">{amount}</p>
@@ -24,7 +24,7 @@ const ExpenseGraph = ({ income, expenses, remaining, categoryStat }) => {
   const [remainingVisible, setRemainingVisible] = useState(false);
 
   return (
-    <div className="mt-4 p-6 border rounded-lg shadow-lg">
+    <div className="mt-4 p-6 border rounded-lg">
       <HeaderTitle headerText="Budget Overview" />
 
       {/* Overview with Icons and Bold Text */}

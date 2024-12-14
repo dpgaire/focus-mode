@@ -63,7 +63,7 @@ const TaskGraph = ({ tasks }) => {
   };
 
   return (
-    <div className="my-4 p-2 border rounded-lg shadow-md w-full h-auto">
+    <div className="my-4 p-2 border rounded-lg w-full h-auto">
       <HeaderTitle headerText="Task Completion Over Time" />
       <div style={{ width: "100%", height: "100%" }}>
         <Line data={data} options={options} />

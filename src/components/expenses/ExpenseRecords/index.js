@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { DownloadUploadLog, Table } from "@/components/common";
 import UpdateRecords from "./UpdateRecords";
 import DeleteRecord from "./DeleteRecord";
+import { expenseColumns } from "@/utils/data";
 
 const ExpenseRecords = ({ records, setRecords, onEdit, onDelete }) => {
   const [selectedExpense, setSelectedExpense] = useState(null);
@@ -16,14 +17,14 @@ const ExpenseRecords = ({ records, setRecords, onEdit, onDelete }) => {
   };
 
   return (
-    <div className="mt-4">
+    <div className="record-table">
       <DownloadUploadLog
         records={records}
         setRecords={setRecords}
         logName="wallet_logs_"
       />
       <Table
-        columns={columns}
+        columns={expenseColumns}
         rowList={records}
         onEdit={setSelectedExpense}
         onDelete={setExpenseToDelete}
@@ -50,13 +51,3 @@ const ExpenseRecords = ({ records, setRecords, onEdit, onDelete }) => {
 };
 
 export default ExpenseRecords;
-
-const columns = [
-  "S/N",
-  "Item Name",
-  "Amount",
-  "Category",
-  "Date",
-  "Type",
-  "Actions",
-];
