@@ -44,7 +44,7 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
   };
 
   return (
-    <div className="my-2 border rounded-lg shadow-lg p-2">
+    <div className="my-2 border rounded-lg p-2">
       <HeaderTitle headerText="Add New Task" />
       <Button
         variant="primary"

@@ -29,20 +29,18 @@ const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
   });
 
   return (
-    <div className="my-2 p-2">
+    <div className="record-table">
       <DownloadUploadLog
         records={sortedTasks}
         setRecords={setTasks}
         logName="task_logs_"
       />
-      {/* <div className="mt-4"> */}
       <Table
         columns={tasksColumn}
         rowList={filteredTasks}
         onEdit={setSelectedTask}
         onDelete={setTaskToDelete}
       />
-      {/* </div> */}
       {selectedTask && (
         <TaskEditModal
           task={selectedTask}
