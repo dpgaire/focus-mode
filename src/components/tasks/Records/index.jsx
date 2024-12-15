@@ -1,25 +1,15 @@
-import { DownloadUploadLog, Table } from "@/components/common";
-import React, { useState } from "react";
+import React from "react";
+
+import { RecordsTable } from "@/components/common";
 import TaskEditModal from "./TaskEditModal";
-import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import { tasksColumn } from "@/utils/data";
 
 const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [taskToDelete, setTaskToDelete] = useState(null);
-
   const sortedTasks = tasks.sort(
     (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
   );
 
-  const handleDeleteTask = () => {
-    if (taskToDelete) {
-      deleteTask(taskToDelete); // Pass the task to the parent component for deletion
-      setTaskToDelete(null); // Close the confirmation modal
-    }
-  };
-
-  const filteredTasks = tasks.map((task) => {
+  const filteredTasks = sortedTasks.map((task) => {
     // Filter tasks based on the completedAt field
     if (task.completedAt) {
       const { completedAt, ...taskWithoutCompletedAt } = task; // Remove completedAt
@@ -29,37 +19,15 @@ const Records = ({ tasks, setTasks, updateTask, deleteTask }) => {
   });
 
   return (
-    <div className="record-table">
-      <DownloadUploadLog
-        records={sortedTasks}
-        setRecords={setTasks}
-        logName="task_logs_"
-      />
-      <Table
-        columns={tasksColumn}
-        rowList={filteredTasks}
-        onEdit={setSelectedTask}
-        onDelete={setTaskToDelete}
-      />
-      {selectedTask && (
-        <TaskEditModal
-          task={selectedTask}
-          onClose={() => setSelectedTask(null)}
-          onUpdate={(updatedTask) => {
-            updateTask(updatedTask);
-            setSelectedTask(null);
-          }}
-        />
-      )}
-
-      {taskToDelete && (
-        <DeleteConfirmationModal
-          taskName={taskToDelete.taskName}
-          onConfirm={handleDeleteTask}
-          onCancel={() => setTaskToDelete(null)}
-        />
-      )}
-    </div>
+    <RecordsTable
+      records={filteredTasks}
+      setRecords={setTasks}
+      columns={tasksColumn}
+      recordType="task"
+      onEditRecord={updateTask}
+      onDeleteRecord={deleteTask}
+      EditModal={TaskEditModal}
+    />
   );
 };
 

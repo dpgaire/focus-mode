@@ -1,13 +1,11 @@
-import React from "react";
+import React from 'react'
+import Modal from '../Modal';
+import Button from '../Button';
 
-import { Button, Modal } from "@/components/common";
-
-const DeleteRecord = ({ expenseName, onConfirm, onCancel }) => {
-  return (
+const DeleteModal = ({ recordName, onConfirm, onCancel }) => (
     <Modal title="Confirm Delete">
       <p className="mb-6">
-        Are you sure you want to delete the expense{" "}
-        <strong>{expenseName}</strong>?
+        Are you sure you want to delete the <strong>{recordName}</strong>?
       </p>
       <div className="flex justify-end space-x-4">
         <Button variant="outline" innerText="Cancel" onClick={onCancel} />
@@ -15,6 +13,5 @@ const DeleteRecord = ({ expenseName, onConfirm, onCancel }) => {
       </div>
     </Modal>
   );
-};
 
-export default DeleteRecord;
+export default DeleteModal
