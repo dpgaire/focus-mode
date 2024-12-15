@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Button, Modal, SelectField, TextInput } from "@/components/common";
 import { statusOptions } from "@/utils/data";
 
-const TaskEditModal = ({ task, onClose, onUpdate }) => {
-  const [editedTask, setEditedTask] = useState({ ...task });
+const TaskEditModal = ({ record, onClose, onUpdate }) => {
+  const [editedTask, setEditedTask] = useState({ ...record });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
