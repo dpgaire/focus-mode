@@ -9,12 +9,11 @@ const InfoData = [
 ];
 
 const categories = [
-  { value: "income", name: "Income" },
-  { value: "housing", name: "Housing" },
+  { value: "food", name: "Food" },
+  { value: "hostel", name: "Hostel Fee" },
   { value: "borrow", name: "Borrow" },
   { value: "lend", name: "Lend" },
   { value: "utilities", name: "Utilities" },
-  { value: "food", name: "Food" },
   { value: "transport", name: "Transport" },
   { value: "petrol", name: "Petrol" },
   { value: "bike_service", name: "Bike Service" },

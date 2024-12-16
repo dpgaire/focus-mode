@@ -40,6 +40,12 @@ const AddExpense = ({ records, setRecords }) => {
   const handleFormTypeToggle = (type) => {
     setFormType(type); // Set type to either "income" or "expense"
     setOpenForm(true); // Open form when switching types
+
+    // Automatically set category to "Income" if type is income
+    setFormData((prev) => ({
+      ...prev,
+      category: type === "income" ? "Income" : "",
+    }));
   };
 
   return (
@@ -71,13 +77,15 @@ const AddExpense = ({ records, setRecords }) => {
               formType === "income" ? "Income Name" : "Item name"
             }`}
           />
-          <SelectField
-            value={formData.category}
-            label="Category"
-            name="category"
-            onChange={handleInputChange}
-            options={categories}
-          />
+          {formType === "expense" && (
+            <SelectField
+              value={formData.category}
+              label="Category"
+              name="category"
+              onChange={handleInputChange}
+              options={categories}
+            />
+          )}
           <TextInput
             name="price"
             value={formData.price}
