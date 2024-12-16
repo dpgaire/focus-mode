@@ -11,6 +11,8 @@ const InfoData = [
 const categories = [
   { value: "income", name: "Income" },
   { value: "housing", name: "Housing" },
+  { value: "borrow", name: "Borrow" },
+  { value: "lend", name: "Lend" },
   { value: "utilities", name: "Utilities" },
   { value: "food", name: "Food" },
   { value: "transport", name: "Transport" },

@@ -52,18 +52,28 @@ const calculateStats = (data) => {
     .reduce((sum, record) => sum + (Number(record.price) || 0), 0);
 
   const expenses = data
-    .filter((record) => record.type === "expense")
+    .filter((record) => record.type === "expense" && record.category !== "borrow" && record.category !== "lend")
     .reduce((sum, record) => sum + (Number(record.price) || 0), 0);
 
-  const expenseCategories = data
-    .filter((record) => record.type === "expense")
-    .reduce((acc, record) => {
-      acc[record.category] = (acc[record.category] || 0) + Number(record.price);
-      return acc;
-    }, {});
+  // Calculate total loans (borrowed) and lends (lent)
+  const loans = data
+    .filter((record) => record.category === "borrow")
+    .reduce((sum, record) => sum + (Number(record.price) || 0), 0);
 
-  return { income, expenses, remaining: income - expenses, expenseCategories };
+  const lends = data
+    .filter((record) => record.category === "lend")
+    .reduce((sum, record) => sum + (Number(record.price) || 0), 0);
+
+  // Operational Remaining Balance
+  const remaining = income - expenses;
+
+  // Comprehensive Balance Calculation (including loans/lends)
+  const balance = remaining + loans - lends;
+
+  return { income, expenses, remaining, loans, lends, balance };
 };
+
+
 
 export {
   getDatesBetween,
