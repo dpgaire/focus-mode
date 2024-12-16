@@ -6,15 +6,16 @@ import {
   ExpenseRecords,
 } from "@/components/expenses";
 import { calculateStats } from "@/utils";
-import CategoryStat from "@/components/tasks/Graph/CategoryStat";
-import { categories } from "@/utils/data";
+
 
 const Index = () => {
   const [budgetStats, setBudgetStats] = useState({
     income: 0,
     expenses: 0,
     remaining: 0,
-    categories: {},
+    loans: 0,
+    lends:0,
+    balance:0
   });
 
   const [records, setRecords] = useState([]);
@@ -57,7 +58,9 @@ const Index = () => {
         income={budgetStats.income}
         expenses={budgetStats.expenses}
         remaining={budgetStats.remaining}
-        categoryStat={budgetStats.expenseCategories}
+        loans={budgetStats.loans}
+        lends={budgetStats.lends}
+        balance={budgetStats.balance}
       />
       <AddExpense records={records} setRecords={setRecords} />
       <ExpenseRecords
