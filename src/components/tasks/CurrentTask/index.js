@@ -76,9 +76,9 @@ const CurrentTask = ({ currentTask, setUpdateTask }) => {
   }, []);
 
   return (
-    <div className="my-2 border rounded-lg shadow-lg p-2">
+    <div className="my-2 border rounded-lg  p-2">
       <HeaderTitle headerText="Current Task" />
-      <div className="p-4 my-2 flex justify-between flex-wrap items-center border rounded-lg shadow-lg">
+      <div className="p-4 my-2 flex justify-between flex-wrap items-center border rounded-lg">
         <span className="text-xl font-normal">{currentTask}</span>
         <span className="text-2xl md:text-5xl font-normal">
           {formatTime(time)}
