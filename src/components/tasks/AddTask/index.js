@@ -54,7 +54,7 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
       {openForm && (
         <form
           onSubmit={handleFormSubmit}
-          className="mt-2 flex flex-col gap-2 p-2 border rounded-lg shadow-lg"
+          className="mt-2 flex flex-col gap-2 p-2 border rounded-lg"
         >
           <TextInput
             name="task"

@@ -47,7 +47,7 @@ const AddExpense = ({ records, setRecords }) => {
       category: type === "income" ? "Income" : "",
     }));
   };
-
+ 
   return (
     <div className="my-4 p-4 border rounded-lg">
       <HeaderTitle headerText="Budget Tracker" />
