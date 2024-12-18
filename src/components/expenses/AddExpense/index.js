@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   HeaderTitle,
@@ -14,7 +14,7 @@ const AddExpense = ({ records, setRecords }) => {
   const [formData, setFormData] = useState({
     item: "",
     price: "",
-    category: "",
+    category: "food",
   });
 
   const handleFormSubmit = (e) => {
@@ -39,14 +39,15 @@ const AddExpense = ({ records, setRecords }) => {
 
   const handleFormTypeToggle = (type) => {
     setFormType(type); // Set type to either "income" or "expense"
-    setOpenForm(true); // Open form when switching types
+    setOpenForm(!openForm); // Open form when switching types
 
     // Automatically set category to "Income" if type is income
     setFormData((prev) => ({
       ...prev,
-      category: type === "income" ? "Income" : "",
+      category: type === "income" ? "Income" : formData.category,
     }));
   };
+
  
   return (
     <div className="my-4 p-4 border rounded-lg">
