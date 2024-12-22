@@ -4,7 +4,7 @@ import React from "react";
 const NotFound = () => {
   return (
     <div
-      className="w-full flex justify-center flex-col items-center gap-8"
+      className="w-full flex justify-center flex-col items-center gap-8 text-red-500"
       style={{ height: "calc(100vh - 220px)" }}
     >
       <span className="text-4xl lg:text-8xl font-bold tracking-wide">
