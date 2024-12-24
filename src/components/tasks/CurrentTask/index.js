@@ -3,13 +3,16 @@ import { formatTime } from "@/utils";
 import { HeaderTitle, Button } from "@/components/common";
 
 const CurrentTask = ({ currentTask, setUpdateTask }) => {
-  const [time, setTime] = useState(60 * 25); // For testing with 10 seconds
-  // const [time, setTime] = useState(2); // For testing with 10 seconds
+  const totalTime = 60 * 25; 
+  // const totalTime = 60 * 1; 
+
+  const [time, setTime] = useState(totalTime); // For testing with 10 seconds
   const [alarm, setAlarm] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const startTimeRef = useRef(null);
   const intervalIdRef = useRef(null);
   const pausedTimeRef = useRef(time);
+ 
 
   const playAlarm = () => {
     if (alarm) {
@@ -75,14 +78,28 @@ const CurrentTask = ({ currentTask, setUpdateTask }) => {
     };
   }, []);
 
+  const progressPercentage = ((totalTime - time) / totalTime) * 100;
+
+
   return (
-    <div className="my-2 border rounded-lg  p-2">
+    <div className="relative my-4 border rounded-lg p-4  overflow-hidden">
+    <div
+      className="absolute inset-0 z-0 rounded-lg pointer-events-none"
+      style={{
+        background: `conic-gradient(
+          #3b82f6 ${progressPercentage * 3.6}deg,
+          #FFFFFF ${progressPercentage * 3.6}deg
+        )`,
+        maskImage: "linear-gradient(white, white) padding-box, border-box",
+        WebkitMaskImage: "linear-gradient(white, white) padding-box, border-box",
+      }}
+    ></div>
+
+    <div className="relative z-10">
       <HeaderTitle headerText="Current Task" />
-      <div className="p-4 my-2 flex justify-between flex-wrap items-center border rounded-lg">
-        <span className="text-xl font-normal">{currentTask}</span>
-        <span className="text-2xl md:text-5xl font-normal">
-          {formatTime(time)}
-        </span>
+      <div className="flex justify-between items-center flex-wrap mb-4">
+        <span className="text-lg font-semibold">{currentTask}</span>
+        <span className="text-4xl font-bold">{formatTime(time)}</span>
         <Button
           variant={isRunning ? "danger" : "primary"}
           innerText={isRunning ? "Stop" : "Start"}
@@ -90,6 +107,8 @@ const CurrentTask = ({ currentTask, setUpdateTask }) => {
         />
       </div>
     </div>
+  </div>
+ 
   );
 };
 
