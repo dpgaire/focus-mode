@@ -30,25 +30,37 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
       setUpdateTask(true);
 
       // Update suggestions with the new task
-      setSuggestions((prevSuggestions) => [task, ...prevSuggestions.slice(0, 4)]); // Limit to 5 suggestions
+      // setSuggestions((prevSuggestions) => [task, ...prevSuggestions.slice(0, 4)]); // Limit to 5 suggestions
       setTask(""); // Clear the task input
       setError(""); // Clear any error after successful submission
     }
   };
 
   // Handle input change
+  // Handle input change
   const handleInputChange = (e) => {
-    setTask(e.target.value);
+    const inputValue = e.target.value;
+    setTask(inputValue);
 
-    // Clear the error message when user starts typing
-    if (e.target.value.trim()) {
+    if (inputValue.trim()) {
       setError("");
+
+      // Filter completed tasks, sort by timestamp (newest first), and slice top 2
+      const recentTasks = tasks
+        .filter((t) => t.status === "completed")
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+        .slice(0, 5);
+
+      // Update suggestions based on the top 2 recent tasks
+      setSuggestions(recentTasks);
+    } else {
+      setSuggestions([]); // Clear suggestions if input is empty
     }
   };
 
   // Handle suggestion click
   const handleSuggestionClick = (suggestion) => {
-    setTask(suggestion); // Autofill the input with the clicked suggestion
+    setTask(suggestion.taskName); // Autofill the input with the clicked suggestion
   };
 
   return (
@@ -79,7 +91,7 @@ const AddTask = ({ tasks, setTasks, setUpdateTask }) => {
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => handleSuggestionClick(suggestion)}
                 >
-                  {suggestion}
+                  {suggestion.taskName}
                 </li>
               ))}
             </ul>
