@@ -9,7 +9,7 @@ const Header = () => {
   const isActive = (path) => router.pathname === path;
 
   return (
-    <div className="header">
+    <div className=" p-4 z-20 sticky top-0 flex justify-between items-center bg-primary text-center text-xl font-bold text-white">
       <Link href="/">
         <span
           className={`${
